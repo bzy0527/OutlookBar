@@ -16,9 +16,56 @@ DBFX.Web.NavControls.OutlookBar = function (b) {
     dm.curOverE = undefined;
     dm.preOverE = undefined;
 
+    //TODO:定义一个属性  记录折叠所有、展开所有
+
+
     dm.VisualElement = document.createElement("DIV");
     // dm.VisualElement.className = "OutlookBar";
 
+    //TODO:主题
+    dm.theme = "";
+    Object.defineProperty(dm,"Theme",{
+        get:function () {
+            return dm.theme;
+        },
+        set:function (v) {
+            dm.theme = v;
+            dm.selectTheme(v);
+        }
+    });
+
+    //TODO:选择主题
+    dm.selectTheme = function (theme) {
+        switch (theme){
+            case "midnight":
+                dm.setTheme("#2b2b2b","#ADADAD","#3c3f41");
+                break;
+            case "dusk":
+                break;
+            case "basic":
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 设置主题
+     * @param hbgc 头部背景色
+     * @param c 字体颜色
+     * @param bgc   其余区域背景色
+     */
+    dm.setTheme = function (hbgc,c,bgc) {
+        dm.OutlookBar.style.setProperty("--OutlookBar_Header-backgroundColor",hbgc);
+        dm.OutlookBar.style.setProperty("--OutlookBar_HeaderText-color",c);
+        dm.OutlookBar.style.setProperty("--OutlookBar_Control-backgroundColor",bgc);
+        dm.OutlookBar.style.setProperty("--OutlookBar_Body-backgroundColor",bgc);
+        dm.OutlookBar.style.setProperty("--OutlookBarItemBar-backgroundColor",bgc);
+        dm.OutlookBar.style.setProperty("--OutlookBarItemBar-color",c);
+        dm.OutlookBar.style.setProperty("--OutlookBarItem1Bar-backgroundColor",bgc);
+        dm.OutlookBar.style.setProperty("--OutlookBarItem1Bar-color",c);
+        dm.OutlookBar.style.setProperty("--OutlookBarItemBar-hover-backgroundColor","#666");
+    }
 
     //切换控制视图按钮位置：左上、中上、右上、左下、中下、右下
     //切换控制视图按钮位置：top-left、top-center、top-right、bottom-left、bottom-center、bottom-right
@@ -199,6 +246,7 @@ DBFX.Web.NavControls.OutlookBar = function (b) {
     //重写构造函数
     dm.OnCreateHandle = function () {
         dm.VisualElement.innerHTML = "<DIV class=\"OutlookBar\"><DIV class=\"OutlookBar_Header\"><IMG class=\"OutlookBar_HeaderImage\"></IMG><Label class=\"OutlookBar_HeaderText\"></Label><Label class=\"OutlookBar_HeaderSubText\"></Label></DIV><DIV class=\"OutlookBar_Body\"></DIV><DIV class=\"OutlookBar_Control\"><IMG class=\"OutlookBar_ControlImage\"></IMG><LABEL class=\"OutlookBar_ControlText\"></LABEL></DIV></DIV>";
+        dm.OutlookBar = dm.VisualElement.querySelector("DIV.OutlookBar");
         dm.ControlImage = dm.VisualElement.querySelector("IMG.OutlookBar_ControlImage");
         dm.ControlLabel = dm.VisualElement.querySelector("LABEL.OutlookBar_ControlText");
         dm.Control = dm.VisualElement.querySelector("DIV.OutlookBar_Control");
@@ -210,15 +258,18 @@ DBFX.Web.NavControls.OutlookBar = function (b) {
         dm.HeaderText = dm.VisualElement.querySelector("LABEL.OutlookBar_HeaderText");
         dm.HeaderSubText = dm.VisualElement.querySelector("LABEL.OutlookBar_HeaderSubText");
 
-        dm.HeaderImage.src = "./moretree.png";
-        dm.HeaderText.innerText = "深蓝软件";
-        //TODO:主题图片
+        //切换显示图片
         dm.ControlImage.src = "Themes/" + app.CurrentTheme + "/Images/hammenu.png";
 
-        // dm.ControlImage.src = "./drawermenu.png";
+        //TODO:本地测试代码 发布到平台时需注释
+        dm.HeaderImage.src = "./moretree.png";
+        dm.HeaderText.innerText = "深蓝软件";
+        dm.ControlImage.src = "./drawermenu.png";
+
+
         dm.ControlImage.onclick = dm.SwitchMenuMode;
         // dm.ControlLabel.innerText = dm.controlText;
-        dm.ControlLabel.innerText = "深蓝软件砚台智能云";
+        // dm.ControlLabel.innerText = "深蓝软件砚台智能云";
 
     }
 
@@ -238,20 +289,18 @@ DBFX.Web.NavControls.OutlookBar = function (b) {
             dm.Width= dm.MenuWidth;
             dm.ControlLabel.style.display = "inline-block";
             dm.ItemsPanel.style.overflow = "auto";
-            dm.HeaderImage.style.marginLeft = "16px";
-            dm.HeaderText.style.display = "";
             dm.Control.style.justifyContent = dm.controlImgHP;
             dm.mode = 1;
+            dm.Header.className = "OutlookBar_Header";
         }else {
 
             dm.MenuWidth = dm.ClientDiv.style.width;
             dm.Width = "50px";
             dm.ControlLabel.style.display = "none";
             dm.ItemsPanel.style.overflow = "hidden";
-            dm.HeaderImage.style.marginLeft = "2px";
-            dm.HeaderText.style.display = "none";
             dm.Control.style.justifyContent = "center";
             dm.mode = 0;
+            dm.Header.className = "OutlookBar_Header_fold";
         }
     }
 
@@ -304,7 +353,9 @@ DBFX.Web.NavControls.OutlookBar = function (b) {
                 var dmItem = new DBFX.Web.NavControls.OutlookBarItem(dm);
                 dmItem.Text = item["Text"];
                 dmItem.ImageUrl = item["ImageUrl"];
-                // dmItem.ImageUrl = "./moretree.png";
+                //TODO:本地测试代码
+                dmItem.ImageUrl = "./moretree.png";
+
                 dmItem.dataContext = item;
                 dmItem.OnClick = DBFX.Serializer.CommandNameToCmd(item.OnClick);
                 dm.AddItem(dmItem);
@@ -347,7 +398,7 @@ DBFX.Web.NavControls.OutlookBar = function (b) {
         ve.style.width = "30px";
         ve.style.height = "100px";
         // ve.style.overflow = "hidden";
-        ve.style.border = "1px solid blue";
+        // ve.style.border = "1px solid blue";
         ve.style.boxSizing = "border-box";
     };
 
@@ -415,6 +466,7 @@ DBFX.Design.ControlDesigners.OutlookBarDesigner = function () {
 }
 
 
+
 //OutlookBarItem
 DBFX.Web.NavControls.OutlookBarItem = function (dm) {
     var dmItem = DBFX.Web.Controls.Control("OutlookBarItem");
@@ -427,39 +479,23 @@ DBFX.Web.NavControls.OutlookBarItem = function (dm) {
     dmItem.class = 0;
     dmItem.OnCreateHandle();
     dmItem.OnCreateHandle = function () {
-        dmItem.VisualElement.innerHTML = "<DIV class=\"OutlookBarItem\"><DIV class=\"OutlookBarItemBar\"><IMG class=\"OutlookBarItemECImage\" /><IMG class=\"OutlookBarItemImage\" /><LABEL class=\"OutlookBarItemText\"></LABEL></DIV><DIV class=\"OutlookBarItemsPanel\"></DIV></DIV>";
+        dmItem.VisualElement.innerHTML = "<DIV class=\"OutlookBarItem\"><DIV class=\"OutlookBarItemBar\"><IMG class=\"OutlookBarItemImage\" /><LABEL class=\"OutlookBarItemText\"></LABEL><IMG class=\"OutlookBarItemECImage\" /></DIV><DIV class=\"OutlookBarItemsPanel\"></DIV></DIV>";
         dmItem.ClientDiv = dmItem.VisualElement.querySelector("DIV.OutlookBarItem");
         dmItem.ItemBar = dmItem.VisualElement.querySelector("DIV.OutlookBarItemBar");
         dmItem.ItemsPanel = dmItem.VisualElement.querySelector("DIV.OutlookBarItemsPanel");
         dmItem.ECImage = dmItem.VisualElement.querySelector("IMG.OutlookBarItemECImage");
         dmItem.ItemImage = dmItem.VisualElement.querySelector("IMG.OutlookBarItemImage");
         dmItem.TextLabel = dmItem.VisualElement.querySelector("LABEL.OutlookBarItemText");
-        dmItem.ECImage.src = "Themes/" + app.CurrentTheme + "/Images/OutlookBar/empty.png";
-        // dmItem.ECImage.src = "./moretree.png";
+
+
+        //ItemsPanel：0-隐藏(默认隐藏)  1-显示
         dmItem.mode = 1;
 
-
         dmItem.originBgc = "";
-        // dmItem.ItemBar.onmouseover = function (e) {
-        //
-        //     dm.curOverE = this;
-        //     if(dm.curOverE != dm.curClickE){
-        //         dm.curOverE.style.backgroundColor = "#cbcbcb";
-        //     }
-        // }
-        //
-        // dmItem.ItemBar.onmouseleave = function (e) {
-        //     // dmItem.preOverE.style.backgroundColor = "";
-        //     if(dm.curOverE != undefined){
-        //         dm.preOverE = dm.curOverE;
-        //     }
-        //
-        //     if(dm.preOverE != undefined && dm.curClickE != dm.preOverE){
-        //         dm.preOverE.style.backgroundColor = "";
-        //     }
-        // }
 
-        //
+        //TODO:添加属性  初始状态是否展示全部Item
+
+        //点击
         dmItem.ItemBar.onclick = function (e) {
 
             e.preventDefault();
@@ -471,8 +507,7 @@ DBFX.Web.NavControls.OutlookBarItem = function (dm) {
                 dm.preClickE.style.backgroundColor = "";
             }
             dm.curClickE = this;
-            console.log(dmItem.Items.length);
-
+            console.log("子元素数量："+dmItem.Items.length);
 
             if(dm.mode == 1){
                 //TODO:通过判断是否有子元素执行操作
@@ -480,13 +515,15 @@ DBFX.Web.NavControls.OutlookBarItem = function (dm) {
                     this.style.backgroundColor = dmItem.SelectedBgC;
                 }
                 if(dmItem.mode == 1){
-                    dmItem.ItemsPanel.style.display = "none";
-                    // dmItem.ECImage.src = "./Collapsed.png";
-                    // dmItem.ECImage.src = "./Collapsed.png";
+
+                    dmItem.ItemsPanel.className = "OutlookBarItemsPanel_hidden";
+
+                    //TODO：切换图片
+                    dmItem.ECImage.src = "./Collapsed.png";
                     dmItem.mode = 0;
                 }else {
-                    dmItem.ItemsPanel.style.display = "";
-                    // dmItem.ECImage.src = "./Expanded.png";
+                    dmItem.ItemsPanel.className = "OutlookBarItemsPanel";
+                    dmItem.ECImage.src = "./Expanded.png";
                     dmItem.mode = 1;
                 }
             }else {
@@ -513,7 +550,30 @@ DBFX.Web.NavControls.OutlookBarItem = function (dm) {
     }
 
     dmItem.CreateSubItems = function (subItems) {
+        //判断是否有子集
         if(Array.isArray(subItems)){
+
+            if(dmItem.mode == 0){
+                //TODO:平台代码
+                dmItem.ECImage.src = "Themes/" + app.CurrentTheme + "/Images/Collapsed.png";
+
+                //TODO:本地测试代码  发布到平台需注释掉
+                dmItem.ECImage.src = "./Collapsed.png";
+                //TODO:加载时  默认隐藏所有二级Item
+                dmItem.ItemsPanel.className = "OutlookBarItemsPanel_hidden";
+            }else {
+                //TODO:平台代码
+                dmItem.ECImage.src = "Themes/" + app.CurrentTheme + "/Images/Expanded.png";
+
+                //TODO:本地测试代码  发布到平台需注释掉
+                dmItem.ECImage.src = "./Expanded.png";
+                //TODO:加载时  默认隐藏所有二级Item
+                dmItem.ItemsPanel.className = "OutlookBarItemsPanel";
+            }
+
+
+
+
             dmItem.class = dmItem.class + 1;
             for(var i=0;i<subItems.length;i++){
                 var item = subItems[i];
@@ -524,13 +584,18 @@ DBFX.Web.NavControls.OutlookBarItem = function (dm) {
 
                 dItem.Text = item["Text"];
                 dItem.ImageUrl = item["ImageUrl"];
-                // dItem.ImageUrl = "./moretree.png";
+
+                //TODO:本地测试代码
+                dItem.ImageUrl = "./moretree.png";
+
                 dItem.OnClick = DBFX.Serializer.CommandNameToCmd(item.OnClick);
                 dItem.dataContext  = item;
                 dmItem.AddItem(dItem);
                 dItem.CreateSubItems(item.Items);
             }
             // this.class ++;
+        }else {
+            dmItem.ECImage.style.display = "none";
         }
 
     }
@@ -605,18 +670,17 @@ DBFX.Web.NavControls.OutlookBarItem = function (dm) {
 
     });
 
+    //折叠显示
     dmItem.hideItemToIcon = function () {
-        dmItem.ECImage.style.display = "none";
-        dmItem.TextLabel.style.display = "none";
+        dmItem.ItemBar.className = "OutlookBarItemBar_fold";
         if(dmItem.mode == 1){
             dmItem.ItemsPanel.style.display = "none";
         }
 
     }
-
+    //展开
     dmItem.showIconToItem = function () {
-        dmItem.ECImage.style.display = "inline-block";
-        dmItem.TextLabel.style.display = "inline-block";
+        dmItem.ItemBar.className = "OutlookBarItemBar";
         if(dmItem.mode == 1){
             dmItem.ItemsPanel.style.display = "";
         }
