@@ -31,16 +31,20 @@
     </c>
 
     <c T="wc:BreakLine" />
+    <c T="wc:Label" Text="标题栏图片:" Margin="4px 2px 2px 16px" Float="left"/>
+    <c T="dv:TypeEditors.ImageChooseButton" Display="block"  Margin="2px 14px 2px 16px" BindProperty="HeaderImgUrl" />
+
+    <c T="wc:BreakLine" />
+    <c T="wc:Label" Text="标题栏标题:" Margin="4px 2px 2px 16px" Float="left"/>
+    <c T="wc:TextBox" Display="block" Height="26px" Margin="2px 14px 2px 16px" DataBindings="{&quot;Path&quot;:&quot;HeaderTitle&quot;,&quot;Mode&quot;:&quot;OneWay&quot;,&quot;Source&quot;:&quot;&quot;}" />
+
+    <c T="wc:BreakLine" />
     <c T="wc:Label" Text="标题栏高度:" Margin="4px 2px 2px 16px" Float="left"/>
     <c T="wc:TextBox" Display="block" Height="26px" Margin="2px 14px 2px 16px" DataBindings="{&quot;Path&quot;:&quot;HeaderHeight&quot;,&quot;Mode&quot;:&quot;OneWay&quot;,&quot;Source&quot;:&quot;&quot;}" />
 
     <c T="wc:BreakLine" />
     <c T="wc:Label" Text="标题栏背景色:" Margin="4px 2px 2px 16px" Float="left"/>
     <c T="wc:ColorPicker" Display="block" Height="26px" Margin="2px 14px 2px 16px" DataBindings="{&quot;Path&quot;:&quot;HeaderBgC&quot;,&quot;Mode&quot;:&quot;OneWay&quot;,&quot;Source&quot;:&quot;&quot;}" />
-
-    <c T="wc:BreakLine" />
-    <c T="wc:Label" Text="标题栏图片:" Margin="4px 2px 2px 16px" Float="left"/>
-    <c T="dv:TypeEditors.ImageChooseButton" Display="block"  Margin="2px" BindProperty="HeaderImgUrl" />
 
     <c T="wc:BreakLine" />
     <c T="wc:Label" Text="标题文字颜色:" Margin="4px 2px 2px 16px" Float="left"/>

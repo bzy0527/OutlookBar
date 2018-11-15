@@ -178,6 +178,19 @@ DBFX.Web.NavControls.OutlookBar = function (b) {
         }
     });
 
+
+    dm.headerTitle = "";
+    Object.defineProperty(dm, "HeaderTitle", {
+        get: function () {
+            return dm.headerTitle;
+        },
+        set: function (v) {
+            dm.headerTitle = v;
+            dm.HeaderText.innerText = v;
+        }
+    });
+
+
     //头部：背景色 字体大小 字体颜色、高
     dm.headerHeight = "44px";
     Object.defineProperty(dm, "HeaderHeight", {
@@ -259,12 +272,12 @@ DBFX.Web.NavControls.OutlookBar = function (b) {
         dm.HeaderSubText = dm.VisualElement.querySelector("LABEL.OutlookBar_HeaderSubText");
 
         //切换显示图片
-        dm.ControlImage.src = "Themes/" + app.CurrentTheme + "/Images/hammenu.png";
+        dm.ControlImage.src = "Themes/" + app.CurrentTheme + "/Images/OutlookBar/Control.png";
 
         //TODO:本地测试代码 发布到平台时需注释
-        dm.HeaderImage.src = "./moretree.png";
-        dm.HeaderText.innerText = "深蓝软件";
-        dm.ControlImage.src = "./drawermenu.png";
+        // dm.HeaderImage.src = "./moretree.png";
+        // dm.HeaderText.innerText = "深蓝软件";
+        // dm.ControlImage.src = "./Control.png";
 
 
         dm.ControlImage.onclick = dm.SwitchMenuMode;
@@ -354,7 +367,7 @@ DBFX.Web.NavControls.OutlookBar = function (b) {
                 dmItem.Text = item["Text"];
                 dmItem.ImageUrl = item["ImageUrl"];
                 //TODO:本地测试代码
-                dmItem.ImageUrl = "./moretree.png";
+                // dmItem.ImageUrl = "./moretree.png";
 
                 dmItem.dataContext = item;
                 dmItem.OnClick = DBFX.Serializer.CommandNameToCmd(item.OnClick);
@@ -413,6 +426,7 @@ DBFX.Serializer.OutlookBarSerializer = function () {
         DBFX.Serializer.SerialProperty("ControlBtnPosition", c.ControlBtnPosition, xe);
         DBFX.Serializer.SerialProperty("ControlHeight", c.ControlHeight, xe);
         DBFX.Serializer.SerialProperty("HeaderImgUrl", c.HeaderImgUrl, xe);
+        DBFX.Serializer.SerialProperty("HeaderTitle", c.HeaderTitle, xe);
         DBFX.Serializer.SerialProperty("HeaderHeight", c.HeaderHeight, xe);
         DBFX.Serializer.SerialProperty("HeaderBgC", c.HeaderBgC, xe);
         DBFX.Serializer.SerialProperty("HeaderTextC", c.HeaderTextC, xe);
@@ -427,6 +441,7 @@ DBFX.Serializer.OutlookBarSerializer = function () {
         DBFX.Serializer.DeSerialProperty("ControlBtnPosition", c, xe);
         DBFX.Serializer.DeSerialProperty("ControlHeight", c, xe);
         DBFX.Serializer.DeSerialProperty("HeaderImgUrl", c, xe);
+        DBFX.Serializer.DeSerialProperty("HeaderTitle", c, xe);
         DBFX.Serializer.DeSerialProperty("HeaderHeight", c, xe);
         DBFX.Serializer.DeSerialProperty("HeaderBgC", c, xe);
         DBFX.Serializer.DeSerialProperty("HeaderTextC", c, xe);
@@ -489,13 +504,13 @@ DBFX.Web.NavControls.OutlookBarItem = function (dm) {
 
 
         //ItemsPanel：0-隐藏(默认隐藏)  1-显示
-        dmItem.mode = 1;
+        dmItem.mode = 0;
 
         dmItem.originBgc = "";
 
         //TODO:添加属性  初始状态是否展示全部Item
 
-        //点击
+        //TODO:点击
         dmItem.ItemBar.onclick = function (e) {
 
             e.preventDefault();
@@ -503,27 +518,33 @@ DBFX.Web.NavControls.OutlookBarItem = function (dm) {
             if(dm.curClickE != undefined){
                 dm.preClickE = dm.curClickE;
             }
-            if(dm.preClickE != undefined){
-                dm.preClickE.style.backgroundColor = "";
-            }
-            dm.curClickE = this;
+
             console.log("子元素数量："+dmItem.Items.length);
+            if(dm.preClickE != undefined && dmItem.Items.length == 0){
+                // dm.preClickE.style.backgroundColor = "";
+                dm.preClickE.classList.remove("OutlookBarItemBar_Selected");
+            }
+
 
             if(dm.mode == 1){
                 //TODO:通过判断是否有子元素执行操作
                 if(dmItem.Items.length == 0){
-                    this.style.backgroundColor = dmItem.SelectedBgC;
+                    // this.style.backgroundColor = dmItem.SelectedBgC;
+                    this.classList.add("OutlookBarItemBar_Selected");
+
+                    dm.curClickE = this;
                 }
                 if(dmItem.mode == 1){
-
                     dmItem.ItemsPanel.className = "OutlookBarItemsPanel_hidden";
-
                     //TODO：切换图片
-                    dmItem.ECImage.src = "./Collapsed.png";
+                    // dmItem.ECImage.src = "./Collapsed.png";
+                    dmItem.ECImage.src = "Themes/" + app.CurrentTheme + "/Images/OutlookBar/Collapsed.png";
                     dmItem.mode = 0;
                 }else {
                     dmItem.ItemsPanel.className = "OutlookBarItemsPanel";
-                    dmItem.ECImage.src = "./Expanded.png";
+                    //TODO：切换图片
+                    // dmItem.ECImage.src = "./Expanded.png";
+                    dmItem.ECImage.src = "Themes/" + app.CurrentTheme + "/Images/OutlookBar/Expanded.png";
                     dmItem.mode = 1;
                 }
             }else {
@@ -554,19 +575,20 @@ DBFX.Web.NavControls.OutlookBarItem = function (dm) {
         if(Array.isArray(subItems)){
 
             if(dmItem.mode == 0){
-                //TODO:平台代码
-                dmItem.ECImage.src = "Themes/" + app.CurrentTheme + "/Images/Collapsed.png";
+                //平台代码
+                dmItem.ECImage.src = "Themes/" + app.CurrentTheme + "/Images/OutlookBar/Collapsed.png";
 
                 //TODO:本地测试代码  发布到平台需注释掉
-                dmItem.ECImage.src = "./Collapsed.png";
+                // dmItem.ECImage.src = "./Collapsed.pg";
+
                 //TODO:加载时  默认隐藏所有二级Item
                 dmItem.ItemsPanel.className = "OutlookBarItemsPanel_hidden";
             }else {
-                //TODO:平台代码
-                dmItem.ECImage.src = "Themes/" + app.CurrentTheme + "/Images/Expanded.png";
-
+                //平台代码
+                dmItem.ECImage.src = "Themes/" + app.CurrentTheme + "/Images/OutlookBar/Expanded.png";
+O
                 //TODO:本地测试代码  发布到平台需注释掉
-                dmItem.ECImage.src = "./Expanded.png";
+                // dmItem.ECImage.src = "./Expanded.png";
                 //TODO:加载时  默认隐藏所有二级Item
                 dmItem.ItemsPanel.className = "OutlookBarItemsPanel";
             }

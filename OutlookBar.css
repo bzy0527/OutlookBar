@@ -19,11 +19,20 @@
     --OutlookBarItemBar-hover-backgroundColor:#cbcbcb;
     --OutlookBarItemBar-color:#f9f9f9;
     --OutlookBarItemBar-fontSize:14px;
+    /*选中样式*/
+    --OutlookBarItemBar_Selected-fontSize:16px;
+    --OutlookBarItemBar_Selected-backgroundColor:#00c167;
+    --OutlookBarItemBar_Selected-color:white;
+
 
     /*OutlookBar1 二级菜单样式设置*/
     --OutlookBarItem1Bar-backgroundColor:#70cb98;
     --OutlookBarItem1Bar-color:#393939;
     --OutlookBarItem1Bar-fontSize:12px;
+    /*选中样式*/
+    --OutlookBarItem1Bar_Selected-fontSize:14px;
+    --OutlookBarItem1Bar_Selected-backgroundColor:#00c167;
+    --OutlookBarItem1Bar_Selected-color:white;
 
     /*滚动条样式*/
     --ScrollBar_Color:#858889;
@@ -193,9 +202,22 @@
     font-size: var(--OutlookBarItemBar-fontSize);
 }
 
-.OutlookBarItem .OutlookBarItemBar:hover{
-    background-color: var(--OutlookBarItemBar-hover-backgroundColor);
+/*选中样式设置*/
+.OutlookBar .OutlookBarItem .OutlookBarItemBar_Selected{
+
+
+    background-color: var(--OutlookBarItemBar_Selected-backgroundColor);
+    color: var(--OutlookBarItemBar_Selected-color);
+    font-size: var(--OutlookBarItemBar_Selected-fontSize);
 }
+
+.OutlookBar  .OutlookBarItem1 .OutlookBarItemBar_Selected{
+    background-color: var(--OutlookBarItem1Bar_Selected-backgroundColor);
+    color: var(--OutlookBarItem1Bar_Selected-color);
+    font-size: var(--OutlookBarItem1Bar_Selected-fontSize);
+}
+
+
 
 .OutlookBarItem .OutlookBarItemBar .OutlookBarItemECImage {
      min-width: 20px;
@@ -211,7 +233,6 @@
 .OutlookBarItem .OutlookBarItemImage {
     max-height: 35px;
     max-width: 35px;
-    /*float: right;*/
 }
 
 .OutlookBarItem .OutlookBarItemBar .OutlookBarItemText {
@@ -263,6 +284,10 @@
     background-color: var(--OutlookBarItem1Bar-backgroundColor);
     color: var(--OutlookBarItem1Bar-color);
     font-size: var(--OutlookBarItem1Bar-fontSize);
+}
+
+.OutlookBarItemBar:hover{
+    background-color: var(--OutlookBarItemBar-hover-backgroundColor);
 }
 
 .OutlookBarItem1 .OutlookBarItemBar .OutlookBarItemECImage {
