@@ -9,19 +9,19 @@
 
     /*OutlookBar控制区域设置*/
     --OutlookBar_Control-fontSize:14px;
-    --OutlookBar_Control-backgroundColor:#00c167;
+    --OutlookBar_Control-backgroundColor:#1e5186;
 
     /*OutlookBar 菜单区域设置*/
-    --OutlookBar_Body-backgroundColor:#00c167;
+    --OutlookBar_Body-backgroundColor:#1e5186;
 
     /*OutlookBar 一级菜单样式设置*/
-    --OutlookBarItemBar-backgroundColor:#00c167;
+    --OutlookBarItemBar-backgroundColor:#1e5186;
     --OutlookBarItemBar-hover-backgroundColor:#cbcbcb;
     --OutlookBarItemBar-color:#f9f9f9;
     --OutlookBarItemBar-fontSize:14px;
     /*选中样式*/
     --OutlookBarItemBar_Selected-fontSize:16px;
-    --OutlookBarItemBar_Selected-backgroundColor:#00c167;
+    --OutlookBarItemBar_Selected-backgroundColor:#1e5186;
     --OutlookBarItemBar_Selected-color:white;
 
 
@@ -31,7 +31,7 @@
     --OutlookBarItem1Bar-fontSize:12px;
     /*选中样式*/
     --OutlookBarItem1Bar_Selected-fontSize:14px;
-    --OutlookBarItem1Bar_Selected-backgroundColor:#00c167;
+    --OutlookBarItem1Bar_Selected-backgroundColor:#1e5186;
     --OutlookBarItem1Bar_Selected-color:white;
 
     /*滚动条样式*/
